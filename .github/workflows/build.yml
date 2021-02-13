@@ -24,6 +24,4 @@ jobs:
           tar -zxvf kubeaudit.tar.gz
           chmod +x kubeaudit
       - name: Run kubeaudit
-        run: |
-          ./kubeaudit nonroot -f deployment.yaml -e 0 &> errors
-          if [ -s errors ] ; then cat errors; exit -1; fi
+        run: ./kubeaudit nonroot -f deployment.yaml
