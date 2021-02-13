@@ -1,20 +1,9 @@
 name: CI
 
-on:
-  push:
-    paths-ignore:
-      - 'README.md'
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
-
-env:
-  CI: true
+on: [pull_request]
 
 jobs:
-  build:
+  kubeaudit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -24,6 +13,4 @@ jobs:
           tar -zxvf kubeaudit.tar.gz
           chmod +x kubeaudit
       - name: Run kubeaudit
-        run: |
-          ./kubeaudit nonroot -f deployment.yaml -e 0 &> errors
-          if [ -s errors ] ; then cat errors; exit -1; fi
+        run: ./kubeaudit nonroot -f deployment.yaml
