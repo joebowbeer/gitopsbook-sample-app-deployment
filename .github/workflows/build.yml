@@ -1,27 +1,16 @@
 name: CI
 
-on:
-  push:
-    paths-ignore:
-      - 'README.md'
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
-
-env:
-  CI: true
+on: [push, pull_request]
 
 jobs:
-  build:
+  kubeaudit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install kubeaudit
+      - name: install
         run: |
           curl -sLf -o kubeaudit.tar.gz  https://github.com/Shopify/kubeaudit/releases/download/v0.12.0/kubeaudit_0.12.0_linux_amd64.tar.gz
           tar -zxvf kubeaudit.tar.gz
           chmod +x kubeaudit
-      - name: Run kubeaudit
+      - name: audit
         run: ./kubeaudit nonroot -f deployment.yaml
